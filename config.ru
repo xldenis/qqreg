@@ -5,7 +5,6 @@ require 'haml'
 require 'aws-sdk'
 require 'securerandom'
 
-
 class Registration < Sinatra::Base
   register Sinatra::FormKeeper
   set :public_folder, 'public'
@@ -29,8 +28,8 @@ class Registration < Sinatra::Base
       out = haml :index
       fill_in_form(out)
     else
-      @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+Securerandom.hex(5)].write(form[:resume][:tempfile])
-      @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+Securerandom.hex(5)].write(form[:release][:tempfile])
+      @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:resume][:tempfile])
+      @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:release][:tempfile])
       haml :thanks
     end
   end
