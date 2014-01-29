@@ -1,0 +1,56 @@
+%html
+  %head
+    %link{rel:"stylesheet",href:"site.css"}
+    %link{:rel => "stylesheet", :href => "unsemantic-grid-responsive.css"}/ 
+    %title McHacks | Post-Registration Registration
+    :javascript
+      window.onload = function() {
+        el = document.getElementById("logo")
+        bg = el.parentNode 
+        el.style.marginTop = (bg.offsetHeight - el.offsetHeight) / 2
+      }
+      canCall = true;
+      window.onresize = function() {
+        if(!canCall) return;
+        calCall = false;
+        el = document.getElementById("logo")
+        bg = el.parentNode 
+        el.style.marginTop = (bg.offsetHeight - el.offsetHeight) / 2
+        setTimeout(function() {canCall = true},200);
+      }
+  %body
+    %header
+      %img#logo{src:"mchacks_dark_1200.png"}
+    %section.registration
+      %h1 Upload
+      - if form.failed?
+        %p plz fill in form correctly.
+      - if form.failed_on? :waiver
+        %p waaaaiiver
+      %p Please fill out this form, all of the fields are required. 
+      %form{:action=>"/form",:method=>"post",:enctype=>"multipart/form-data"}
+        %label{for: "name"} Name: 
+        %input{type: "text",name: "name"}
+        %label{for: "email"} EventBrite Email:
+        %input{type: "text",name: "email"}  
+        %label{for: "school_email"} School Email: 
+        %input{type: "text",name: "school_email"}
+        %label{for: "resume"} Resume: 
+        %input{:type=>"file",:name=>"resume"}
+        %label{for: "release"} Press Release: 
+        %input{type: "file",name: "release"}
+        %input{:type=>"submit",:value=>"Upload"}
+    %footer
+      %div.grid-container
+        %div.grid-100
+          %h3 
+            McHacks is organized by
+            %a{href:"http://hackmcgill.com"}hack_mcgill
+            and
+            %a{href:"http://csus.cs.mcgill.cs"} CSUS
+            Design by
+            %a{href:"http://markprokoudine.com"} Mark
+            and
+            %a{href:"http://xav.io"} Xavier
+            For sponsorship inquiries,contact 
+            %a{href:"mailto:sponsorship@mchacks.io"}sponsorship@mchacks.io
