@@ -27,9 +27,13 @@ class Registration < Sinatra::Base
     :access_key_id => ENV['REG_S3_ID'],
     :secret_access_key => ENV['REG_S3_SECRET']
     )
+  get '/' do 
+    redirect to('/form')
+  end
   get '/form' do 
     haml :index
   end
+
   post '/form' do
     form do
       # filters :strip
