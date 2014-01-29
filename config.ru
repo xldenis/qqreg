@@ -4,6 +4,20 @@ require 'sinatra/formkeeper'
 require 'haml'
 require 'aws-sdk'
 require 'securerandom'
+require 'datamapper'
+require 'dm-mysql-adapter'
+
+DataMapper.setup(:default,ENV['REG_DB_URL'])
+
+class User 
+  include DataMapper::Resource
+  property :id, Serial
+  property :name, String
+  property :email, String
+  property :school_email, String
+end
+
+DataMapper.finalize.auto_upgrade!
 
 class Registration < Sinatra::Base
   register Sinatra::FormKeeper
@@ -28,12 +42,18 @@ class Registration < Sinatra::Base
       out = haml :index
       fill_in_form(out)
     else
-      @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:resume][:tempfile])
-      @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:release][:tempfile])
+      user = User.new(name: form[:name],email: form[:email],school_email: form[:school_email])
+      if user.save
+        @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:resume][:tempfile])
+        @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:release][:tempfile])
+      else
+        out = haml :index
+        fill_in_form(out)
+      end 
       haml :thanks
     end
   end
-    get '/thanks' do
+  get '/thanks' do
     haml :thanks
   end
 end
