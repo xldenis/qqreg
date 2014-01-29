@@ -4,7 +4,7 @@ require 'sinatra/formkeeper'
 require 'haml'
 require 'aws-sdk'
 require 'securerandom'
-require 'datamapper'
+require 'data_mapper'
 require 'dm-mysql-adapter'
 
 DataMapper.setup(:default,ENV['REG_DB_URL'])
@@ -15,6 +15,7 @@ class User
   property :name, String
   property :email, String
   property :school_email, String
+  property :file_salt, String
 end
 
 DataMapper.finalize.auto_upgrade!
@@ -42,10 +43,10 @@ class Registration < Sinatra::Base
       out = haml :index
       fill_in_form(out)
     else
-      user = User.new(name: form[:name],email: form[:email],school_email: form[:school_email])
+      user = User.new(name: form[:name],email: form[:email],school_email: form[:school_email],file_salt: SecureRandom.hex(5))
       if user.save
-        @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:resume][:tempfile])
-        @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+SecureRandom.hex(5)].write(form[:release][:tempfile])
+        @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:resume][:tempfile])
+        @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:release][:tempfile])
       else
         out = haml :index
         fill_in_form(out)
