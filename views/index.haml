@@ -1,7 +1,7 @@
 %html
   %head
     %link{rel:"stylesheet",href:"site.css"}
-    %link{:rel => "stylesheet", :href => "unsemantic-grid-responsive.css"}/ 
+    %link{:rel => "stylesheet", :href => "unsemantic-grid-responsive.css"}
     %title McHacks | Post-Registration Registration
     :javascript
       window.onload = function() {
@@ -40,7 +40,7 @@
             %p= msg
       %p 
         Please fill out this form, all of the fields are required. Download the
-        %a{href:"https://drive.google.com/file/d/0B7FwKuXKbXs8SzJqYTBtemFzaXc"} liability wavier
+        %a{href:"https://docs.google.com/uc?authuser=0&id=0B7FwKuXKbXs8SzJqYTBtemFzaXc&export=download"} liability waiver
         here.
       %form{:action=>"/form",:method=>"post",:enctype=>"multipart/form-data"}
         %label{for: "name"} Name: 
