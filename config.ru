@@ -12,10 +12,21 @@ DataMapper.setup(:default,ENV['REG_DB_URL'])
 class User 
   include DataMapper::Resource
   property :id, Serial
-  property :name, String
-  property :email, String
-  property :school_email, String
-  property :file_salt, String
+  property :name, String, required: true, 
+    messages: {
+      presence: "We need your name."
+    }
+  property :email, String, required: true, unique: true,
+    messages: {
+      presence: "We need your Eventbrite email.",
+      is_unique: "We already have that eventbrite email."
+    }
+  property :school_email, String,required: true, unique: true,
+      messages: {
+      presence: "We need your school email.",
+      is_unique: "We already have that school email."
+    }
+  property :file_salt, String, required: true
 end
 
 DataMapper.finalize.auto_upgrade!
@@ -31,7 +42,7 @@ class Registration < Sinatra::Base
     redirect to('/form')
   end
   get '/form' do 
-    haml :index
+    haml :index, locals: {errors: nil}
   end
 
   post '/form' do
@@ -44,18 +55,19 @@ class Registration < Sinatra::Base
       field :resume, present: true
     end
     if form.failed?
-      out = haml :index
+      out = haml :index, locals: {errors: nil}
       fill_in_form(out)
     else
       user = User.new(name: form[:name],email: form[:email],school_email: form[:school_email],file_salt: SecureRandom.hex(5))
       if user.save
         @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:resume][:tempfile])
         @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:release][:tempfile])
+        haml :thanks
       else
-        out = haml :index
+        errors = user.errors
+        out = haml :index, locals: {errors: errors}
         fill_in_form(out)
       end 
-      haml :thanks
     end
   end
   get '/thanks' do
