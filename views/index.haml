@@ -39,7 +39,7 @@
           - err.each do |msg|
             %p= msg
       %p 
-        Please fill out this form, all of the fields are required. Down the
+        Please fill out this form, all of the fields are required. Download the
         %a{href:"https://drive.google.com/file/d/0B7FwKuXKbXs8SzJqYTBtemFzaXc"} liability wavier
         here.
       %form{:action=>"/form",:method=>"post",:enctype=>"multipart/form-data"}
@@ -51,7 +51,7 @@
         %input{type: "text",name: "school_email"}
         %label{for: "resume"} Resume: 
         %input{:type=>"file",:name=>"resume"}
-        %label{for: "release"} Press Release: 
+        %label{for: "release"} Liability waiver: 
         %input{type: "file",name: "release"}
         %input{:type=>"submit",:value=>"Upload"}
     %footer
