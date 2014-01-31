@@ -221,6 +221,40 @@ input[type=submit]:focus {
 	color: #fff;
 }
 
+table {
+	width: 60%;
+	margin: auto;
+	font-size: 1.5rem;
+	font-weight: 100;
+}
+tr {
+	margin: 0.5rem 0;
+}
+tr:hover {
+	background: #ccc !important;
+}
+tr:nth-child(odd){
+	background: #eee;
+}
+tr > td:first-child {
+	float:left;
+	width: 10%;
+	color: #666;
+	padding-left: 5%;
+
+}
+th {
+	/*width: 100%;*/
+	text-align: center;
+	background: none;
+}
+td {
+	padding: 0.5rem 0;
+	width: 50%;
+}
+td:last-child {
+	padding-left: 10%;
+}
 
 footer
 {

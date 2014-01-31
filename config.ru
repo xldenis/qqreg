@@ -73,5 +73,10 @@ class Registration < Sinatra::Base
   get '/thanks' do
     haml :thanks
   end
+  get '/schedule' do 
+      times =  %w( 8:00 10:00 11:30 4:00 8:00 12:00 4:00 8:00 1:00 3:30 4:30)
+     descriptions = ["General Registration & Breakfast","Opening Ceremonies","Hacking Starts & Lunch","HypeJar Snack","Dinner","Twilio Snack","HuffPostCode Snack","Breakfast","Hacking Stops, Lunch & Judging", "Final 8","Closing Ceremonies"]
+     haml :schedule, locals: {table: (times.zip descriptions)}
+  end
 end
 run Registration
