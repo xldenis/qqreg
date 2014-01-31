@@ -6,7 +6,7 @@ require 'aws-sdk'
 require 'securerandom'
 require 'data_mapper'
 require 'dm-mysql-adapter'
-
+require 'newrelic_rpm'
 DataMapper.setup(:default,ENV['REG_DB_URL'])
 
 class User 
