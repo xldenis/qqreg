@@ -9,4 +9,6 @@ gem 'datamapper'
 gem 'dm-mysql-adapter'
 gem 'unicorn'
 gem 'newrelic_rpm'
-
+gem 'sinatra-assetpack'
+gem 'rake'
+gem 'sass'
