@@ -1,6 +1,4 @@
 /*@import url("reset.css");*/
-@import url("http://mchacks.io/assets/fonts/centrale_medium/stylesheet.css");
-@import url("http://mchacks.io/assets/fonts/centrale_bold/stylesheet.css");
 
 @font-face {
 		font-family: Centrale Sans;
@@ -265,11 +263,12 @@ footer
 
 footer h3
 {
-	font-family: "centrale_sansmedium";
+	font-family: "Centrale Sans";
 	color: #555;
 	font-size: 14px;
 	margin: 0;
 	padding: 0;
+  text-align: center;
 }
 
 a
