@@ -18,7 +18,8 @@
       }
   %body
     %header
-      %img#logo{src:"mchacks_dark_1200.png"}
+      %a{href:"http://mchacks.io"}
+        %img#logo{src:"mchacks_dark_1200.png"}
     %section.registration
       %h1 Upload
       - if form.failed? || !errors.nil?
