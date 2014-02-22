@@ -56,7 +56,7 @@ class Registration < Sinatra::Base
       field :name, present: true
       field :email,present: true, email: true
       field :school_email, present: true, email: true
-      field :release, present: true
+      # field :release, present: true
       field :resume, present: true
     end
     if form.failed?
@@ -66,7 +66,7 @@ class Registration < Sinatra::Base
       user = User.new(name: form[:name],email: form[:email],school_email: form[:school_email],file_salt: SecureRandom.hex(5))
       if user.save
         @@s3.buckets['mchacksreg/resumes'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:resume][:tempfile])
-        @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:release][:tempfile])
+        # @@s3.buckets['mchacksreg/press'].objects[form[:name].split(" ").join.downcase+user.file_salt].write(form[:release][:tempfile])
         haml :thanks
       else
         errors = user.errors
